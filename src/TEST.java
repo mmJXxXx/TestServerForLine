@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class TEST {
 
@@ -21,25 +22,28 @@ public class TEST {
         } catch (IOException e) {
             e.printStackTrace();
         }
-            BufferedWriter finalWriter = writer;
-            BufferedReader finalReader = reader;
+        BufferedReader finalReader = reader;
+        BufferedWriter finalWriter = writer;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    String line=null;
                     try {
-                        String sendData = "***今晚月色真美！";
-                        finalWriter.write(sendData + "\n");//必须加上换行
+                        while ((line = finalReader.readLine()) != null)
+                        {
+                            System.out.println(line);
+                        }
+                        finalReader.close();
+                        //Scanner sc = new Scanner(System.in);
+                        finalWriter.write("***TestMessage...");
+                       // System.out.println(str);
+//                        if (finalWriter != null) {
                         finalWriter.flush();
-                        finalWriter.write(sendData + "\n");//必须加上换行
-                        finalWriter.flush();
-                        finalWriter.write(sendData + "\n");//必须加上换行
-                        finalWriter.flush();
-                        System.out.println(finalReader.readLine());
-                    } catch (IOException e) {
-                        System.out.println("Error!");
-                        e.printStackTrace();
-                    }
-
+//                        }
+                         finalWriter.close();
+                       }catch (Exception e){
+                           System.out.println(e);
+                       }
                 }
             }).start();
         }
